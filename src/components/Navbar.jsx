@@ -7,13 +7,11 @@ import {
   Upload, 
   RotateCcw, 
   Globe2, 
-  ExternalLink,
   Layers,
   Table as TableIcon,
   BarChart3,
   ChevronDown,
-  FileSpreadsheet,
-  Cloud
+  FileSpreadsheet
 } from 'lucide-react';
 
 export default function Navbar({ 
@@ -23,8 +21,6 @@ export default function Navbar({
   setActiveView, 
   onOpenRegister, 
   onOpenScanner,
-  onOpenCloudModal,
-  isCloudConnected,
   onExportJson,
   onExportCsv,
   onImportJson,
@@ -55,7 +51,7 @@ export default function Navbar({
 
   return (
     <header className="sticky top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-2xs no-print">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
           {/* Brand / Logo */}
@@ -216,19 +212,6 @@ export default function Navbar({
 
                     <button
                       onClick={() => {
-                        onOpenCloudModal();
-                        setDropdownOpen(false);
-                      }}
-                      className="w-full text-left px-3 py-2 text-sky-700 hover:bg-sky-50 flex items-center gap-2 cursor-pointer font-semibold"
-                    >
-                      <Cloud className="w-3.5 h-3.5 text-sky-600" />
-                      <span>{lang === 'pt' ? 'Configurar Nuvem (Supabase)' : 'Cloud Sync (Supabase)'}</span>
-                    </button>
-
-                    <div className="my-1 border-t border-slate-100" />
-
-                    <button
-                      onClick={() => {
                         if (confirm(lang === 'pt' ? 'Deseja restaurar os dados originais de demonstração do laboratório?' : 'Reset to original demo lab data?')) {
                           onResetData();
                           setDropdownOpen(false);
@@ -244,23 +227,6 @@ export default function Navbar({
               )}
             </div>
 
-            {/* Cloud Status Indicator */}
-            <button
-              onClick={onOpenCloudModal}
-              title={isCloudConnected 
-                ? (lang === 'pt' ? 'Sincronização em tempo real ativa no Supabase' : 'Realtime sync active on Supabase') 
-                : (lang === 'pt' ? 'Modo local (Clique para conectar Supabase)' : 'Local mode (Click to connect Supabase)')
-              }
-              className={`h-9 px-2.5 rounded-lg text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs ${
-                isCloudConnected
-                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
-                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
-              }`}
-            >
-              <Cloud className={`w-3.5 h-3.5 ${isCloudConnected ? 'text-emerald-600' : 'text-slate-400'}`} />
-              <span className="hidden xl:inline">{isCloudConnected ? (lang === 'pt' ? 'Nuvem Ativa' : 'Cloud Active') : (lang === 'pt' ? 'Modo Local' : 'Local Mode')}</span>
-            </button>
-
             {/* Language Switcher */}
             <button
               onClick={() => setLang(lang === 'pt' ? 'en' : 'pt')}
@@ -270,16 +236,6 @@ export default function Navbar({
               <Globe2 className="w-3.5 h-3.5 text-slate-500" />
               <span className="font-mono font-semibold">{lang === 'pt' ? 'EN' : 'PT'}</span>
             </button>
-
-            {/* Back to main site link */}
-            <a
-              href="https://lapam-usp.github.io/"
-              title={lang === 'pt' ? 'Voltar ao portal LaPAM' : 'Return to LaPAM portal'}
-              className="hidden xl:inline-flex h-9 items-center justify-center gap-1 px-2.5 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-colors"
-            >
-              <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-              <span>LaPAM Portal</span>
-            </a>
 
           </div>
         </div>

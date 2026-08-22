@@ -11,7 +11,6 @@ import BoxFormModal from './components/BoxFormModal';
 import DrawerEditModal from './components/DrawerEditModal';
 import PrintLabelModal from './components/PrintLabelModal';
 import QrScannerModal from './components/QrScannerModal';
-import CloudConfigModal from './components/CloudConfigModal';
 import Footer from './components/Footer';
 
 import { 
@@ -43,7 +42,6 @@ export default function App() {
 
   // Cloud connection state
   const [isCloudConnected, setIsCloudConnected] = useState(() => isSupabaseConfigured());
-  const [isCloudModalOpen, setIsCloudModalOpen] = useState(false);
 
   // Search & Filters
   const [searchQuery, setSearchQuery] = useState('');
@@ -250,8 +248,6 @@ export default function App() {
           setActiveView={setActiveView}
           onOpenRegister={(spot) => setFormModalState({ isOpen: true, initialSpot: spot, existingBox: null })}
           onOpenScanner={() => setIsScannerOpen(true)}
-          onOpenCloudModal={() => setIsCloudModalOpen(true)}
-          isCloudConnected={isCloudConnected}
           onExportJson={() => exportDataToJson(drawers, boxes)}
           onExportCsv={() => exportDataToCsv(boxes, drawers)}
           onImportJson={handleImportJson}
@@ -409,17 +405,6 @@ export default function App() {
           onClose={() => setIsScannerOpen(false)}
           onFoundBox={(box) => setSelectedBoxForDetail(box)}
           onRegisterEmptySpot={(d, r, c) => setFormModalState({ isOpen: true, initialSpot: { drawer: d, row: r, col: c }, existingBox: null })}
-        />
-      )}
-
-      {/* 6. Cloud Config Modal (Supabase) */}
-      {isCloudModalOpen && (
-        <CloudConfigModal
-          lang={lang}
-          drawers={drawers}
-          boxes={boxes}
-          onClose={() => setIsCloudModalOpen(false)}
-          onReloadCloudData={syncFromCloud}
         />
       )}
 
