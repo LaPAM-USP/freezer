@@ -77,7 +77,7 @@ export default function FreezerHero({
           </div>
         </div>
 
-        {/* KPI 2: Free Spots + Quick Action */}
+        {/* KPI 2: Free Spots */}
         <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
@@ -87,19 +87,14 @@ export default function FreezerHero({
               <CheckCircle2 className="w-4 h-4" />
             </span>
           </div>
-          <div className="mt-2 flex items-center justify-between">
-            <div className="flex items-baseline gap-1">
+          <div className="mt-2">
+            <div className="flex items-baseline gap-2">
               <span className="text-2xl font-black text-emerald-600 font-mono">{freeCount}</span>
-              <span className="text-xs font-medium text-slate-500 font-mono">{lang === 'pt' ? 'livres' : 'free'}</span>
+              <span className="text-xs font-medium text-slate-500 font-mono">/ {totalCapacity} {lang === 'pt' ? 'livres' : 'free'}</span>
             </div>
-            <button
-              onClick={onFindNextEmptySpot}
-              title={lang === 'pt' ? "Encontrar e registrar na primeira posição vazia" : "Find and claim next free spot"}
-              className="text-[11px] font-bold text-sky-700 hover:text-sky-800 bg-sky-50 hover:bg-sky-100 border border-sky-200 px-2 py-1 rounded-lg transition-colors inline-flex items-center gap-1 cursor-pointer"
-            >
-              <Plus className="w-3 h-3" />
-              <span>{lang === 'pt' ? 'Ocupar Vaga' : 'Claim Spot'}</span>
-            </button>
+            <p className="text-[10px] text-slate-500 mt-1 font-medium">
+              {lang === 'pt' ? 'Prontas para armazenamento' : 'Ready for storage'}
+            </p>
           </div>
         </div>
 
