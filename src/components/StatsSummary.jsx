@@ -14,8 +14,10 @@ import { LAB_MEMBERS, CATEGORIES, BIOSAFETY_LEVELS } from '../data/constants';
 export default function StatsSummary({
   lang,
   boxes,
-  drawers
+  drawers,
+  members = LAB_MEMBERS,
 }) {
+  const membersList = members && members.length > 0 ? members : LAB_MEMBERS;
   const totalSpots = 80;
   const occupiedSpots = boxes.length;
   const freeSpots = totalSpots - occupiedSpots;
@@ -36,7 +38,7 @@ export default function StatsSummary({
   const genCount = boxes.filter(b => b.biosafety === 'general').length;
 
   // Member counts
-  const memberStats = LAB_MEMBERS.map(m => {
+  const memberStats = membersList.map(m => {
     const count = boxes.filter(b => b.ownerId === m.id).length;
     return {
       ...m,

@@ -1,6 +1,32 @@
 import { initialDrawers, initialBoxes } from '../data/initialFreezerData';
+import { LAB_MEMBERS } from '../data/constants';
 
 const STORAGE_KEY = 'lapam_freezer_80_data_v1';
+const MEMBERS_STORAGE_KEY = 'lapam_freezer_members_v1';
+
+export function loadMembersData() {
+  try {
+    const saved = localStorage.getItem(MEMBERS_STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load members from localStorage:', err);
+  }
+  return LAB_MEMBERS;
+}
+
+export function saveMembersData(members) {
+  try {
+    localStorage.setItem(MEMBERS_STORAGE_KEY, JSON.stringify(members));
+  } catch (err) {
+    console.error('Failed to save members to localStorage:', err);
+  }
+}
+
 
 export function loadFreezerData() {
   try {

@@ -7,11 +7,14 @@ export default function DrawerEditModal({
   drawer,
   onClose,
   onSaveDrawer,
+  members = LAB_MEMBERS,
 }) {
+  const membersList = members && members.length > 0 ? members : LAB_MEMBERS;
   const [namePt, setNamePt] = useState(drawer.namePt || '');
   const [nameEn, setNameEn] = useState(drawer.nameEn || '');
   const [claimedBy, setClaimedBy] = useState(drawer.claimedBy || 'coletivo');
   const [customName, setCustomName] = useState(drawer.claimedByName || '');
+  const [color, setColor] = useState(drawer.color || '#0284c7');
   const [descriptionPt, setDescriptionPt] = useState(drawer.descriptionPt || '');
   const [descriptionEn, setDescriptionEn] = useState(drawer.descriptionEn || '');
   const [isCommunity, setIsCommunity] = useState(drawer.isCommunity ?? true);
@@ -23,7 +26,7 @@ export default function DrawerEditModal({
     if (claimedBy === 'custom') {
       claimedByName = customName.trim() || 'Pesquisador';
     } else {
-      const found = LAB_MEMBERS.find(m => m.id === claimedBy);
+      const found = membersList.find(m => m.id === claimedBy);
       if (found) claimedByName = lang === 'pt' ? found.name : found.nameEn;
     }
 
@@ -110,7 +113,7 @@ export default function DrawerEditModal({
               {lang === 'pt' ? 'Responsável / Reivindicação da Gaveta' : 'Drawer Ownership / Claim'}
             </label>
             <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
-              {LAB_MEMBERS.map((member) => (
+              {membersList.map((member) => (
                 <button
                   type="button"
                   key={member.id}

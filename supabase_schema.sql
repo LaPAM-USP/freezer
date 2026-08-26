@@ -46,28 +46,42 @@ CREATE TABLE IF NOT EXISTS public.freezer_boxes (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 3. Habilitar Row Level Security (RLS)
+-- 3. Tabela de Membros do Laboratório (lab_members)
+CREATE TABLE IF NOT EXISTS public.lab_members (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    name_en TEXT,
+    color TEXT DEFAULT '#0284c7',
+    initials TEXT,
+    avatar TEXT DEFAULT './img/LOGO%20LAPAM.png',
+    role TEXT,
+    active BOOLEAN DEFAULT true,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 4. Habilitar Row Level Security (RLS)
 ALTER TABLE public.freezer_drawers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.freezer_boxes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.lab_members ENABLE ROW LEVEL SECURITY;
 
--- 4. Criar Políticas de Acesso Público (Leitura e Escrita anônima para o laboratório)
+-- 5. Criar Políticas de Acesso Público (Leitura e Escrita anônima para o laboratório)
 DROP POLICY IF EXISTS "Allow public full access to drawers" ON public.freezer_drawers;
 CREATE POLICY "Allow public full access to drawers"
-ON public.freezer_drawers
-FOR ALL
-USING (true)
-WITH CHECK (true);
+ON public.freezer_drawers FOR ALL USING (true) WITH CHECK (true);
 
 DROP POLICY IF EXISTS "Allow public full access to boxes" ON public.freezer_boxes;
 CREATE POLICY "Allow public full access to boxes"
-ON public.freezer_boxes
-FOR ALL
-USING (true)
-WITH CHECK (true);
+ON public.freezer_boxes FOR ALL USING (true) WITH CHECK (true);
 
--- 5. Habilitar Replicação em Tempo Real (Supabase Realtime)
+DROP POLICY IF EXISTS "Allow public full access to lab_members" ON public.lab_members;
+CREATE POLICY "Allow public full access to lab_members"
+ON public.lab_members FOR ALL USING (true) WITH CHECK (true);
+
+-- 6. Habilitar Replicação em Tempo Real (Supabase Realtime)
 ALTER PUBLICATION supabase_realtime ADD TABLE public.freezer_drawers;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.freezer_boxes;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.lab_members;
 
 -- ==============================================================================
 -- Pronto! As tabelas e os WebSockets de tempo real já estão ativos.

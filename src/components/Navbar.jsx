@@ -11,7 +11,12 @@ import {
   Table as TableIcon,
   BarChart3,
   ChevronDown,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Cloud,
+  CloudOff,
+  RefreshCw,
+  Users,
+  Lock
 } from 'lucide-react';
 
 export default function Navbar({ 
@@ -21,12 +26,17 @@ export default function Navbar({
   setActiveView, 
   onOpenRegister, 
   onOpenScanner,
+  onOpenMembers,
   onExportJson,
   onExportCsv,
   onImportJson,
   onResetData,
   occupiedCount,
-  totalCapacity
+  totalCapacity,
+  isCloudConnected,
+  isSyncing,
+  onSyncCloud,
+  onLock,
 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -141,6 +151,16 @@ export default function Navbar({
               <span className="hidden sm:inline">{lang === 'pt' ? 'Escanear QR' : 'Scan QR'}</span>
             </button>
 
+            {/* Manage Members Button */}
+            <button
+              onClick={onOpenMembers}
+              title={lang === 'pt' ? "Gerenciar pesquisadores e membros do laboratório" : "Manage lab members and researchers"}
+              className="h-9 inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3 rounded-lg text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-2xs cursor-pointer"
+            >
+              <Users className="w-4 h-4 text-sky-600" />
+              <span className="hidden md:inline">{lang === 'pt' ? 'Membros' : 'Members'}</span>
+            </button>
+
             {/* + Register Box Button */}
             <button
               onClick={() => onOpenRegister(null)}
@@ -222,10 +242,52 @@ export default function Navbar({
                       <RotateCcw className="w-3.5 h-3.5 text-rose-500" />
                       <span>{lang === 'pt' ? 'Restaurar Dados Exemplo' : 'Reset to Demo Data'}</span>
                     </button>
+
+                    {onLock && (
+                      <>
+                        <div className="my-1 border-t border-slate-100" />
+                        <button
+                          onClick={() => {
+                            setDropdownOpen(false);
+                            onLock();
+                          }}
+                          className="w-full text-left px-3 py-2 text-slate-600 hover:bg-slate-50 flex items-center gap-2 cursor-pointer font-medium"
+                        >
+                          <Lock className="w-3.5 h-3.5 text-slate-500" />
+                          <span>{lang === 'pt' ? 'Bloquear Acesso (Sair)' : 'Lock Session (Exit)'}</span>
+                        </button>
+                      </>
+                    )}
                   </div>
                 </>
               )}
             </div>
+
+            {/* Cloud Status Indicator */}
+            {isCloudConnected ? (
+              <button
+                onClick={onSyncCloud}
+                disabled={isSyncing}
+                title={lang === 'pt' ? 'Conectado ao Supabase (Clique para sincronizar)' : 'Connected to Supabase (Click to re-sync)'}
+                className="h-9 px-2.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+              >
+                <span className={`w-2 h-2 rounded-full bg-emerald-500 ${isSyncing ? 'animate-ping' : ''}`} />
+                <Cloud className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="hidden sm:inline">
+                  {isSyncing ? (lang === 'pt' ? 'Sincronizando...' : 'Syncing...') : (lang === 'pt' ? 'Nuvem Conectada' : 'Cloud Synced')}
+                </span>
+                {isSyncing && <RefreshCw className="w-3 h-3 animate-spin text-emerald-600 ml-0.5" />}
+              </button>
+            ) : (
+              <div
+                title={lang === 'pt' ? 'Operando em modo local' : 'Operating in local mode'}
+                className="h-9 px-2.5 rounded-lg text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200 flex items-center gap-1.5 shadow-2xs"
+              >
+                <span className="w-2 h-2 rounded-full bg-amber-500" />
+                <CloudOff className="w-3.5 h-3.5 text-amber-600" />
+                <span className="hidden sm:inline">{lang === 'pt' ? 'Modo Local' : 'Local Mode'}</span>
+              </div>
+            )}
 
             {/* Language Switcher */}
             <button

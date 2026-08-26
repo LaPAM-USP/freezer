@@ -28,7 +28,9 @@ export default function FreezerHero({
   selectedBiosafety,
   setSelectedBiosafety,
   onFindNextEmptySpot,
+  members = LAB_MEMBERS,
 }) {
+  const membersList = members && members.length > 0 ? members : LAB_MEMBERS;
   const totalCapacity = 80;
   const occupiedCount = boxes.length;
   const freeCount = Math.max(0, totalCapacity - occupiedCount);
@@ -190,9 +192,9 @@ export default function FreezerHero({
               className="h-9 px-3 rounded-xl text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-700 focus:outline-none focus:border-sky-500 cursor-pointer"
             >
               <option value="all">{lang === 'pt' ? 'Todos os Responsáveis' : 'All Owners'}</option>
-              {LAB_MEMBERS.map((m) => (
+              {membersList.map((m) => (
                 <option key={m.id} value={m.id}>
-                  {lang === 'pt' ? m.name : m.nameEn}
+                  {lang === 'pt' ? m.name : (m.nameEn || m.name)}
                 </option>
               ))}
             </select>

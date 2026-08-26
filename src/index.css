@@ -64,23 +64,74 @@
   background: #94a3b8;
 }
 
-/* Print Styles for QR Code Labels */
+/* Print Styles for QR Code Labels - Ink-saving, pure white sheet */
 @media print {
-  body {
+  @page {
+    size: auto;
+    margin: 8mm;
+  }
+
+  html, body {
     background: #ffffff !important;
     color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
   
-  .no-print {
+  /* Hide the entire website background, navbar, hero, stats, freezer visual, footer, and canvases */
+  .no-print,
+  header,
+  footer,
+  nav,
+  canvas {
     display: none !important;
   }
-  
-  .print-only {
+
+  /* When the print modal is open, isolate only the printable content */
+  .print-modal-backdrop {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
     display: block !important;
   }
 
+  .print-modal-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .print-sheet-area {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+
+  .print-labels-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    background: #ffffff !important;
+  }
+
   .label-container {
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1.5px solid #000000 !important;
+    box-shadow: none !important;
+    border-radius: 8px !important;
+    margin-bottom: 8px !important;
   }
 }
+
