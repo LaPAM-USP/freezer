@@ -48,11 +48,11 @@ export default function PrintLabelModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs overflow-y-auto">
+    <div className="print-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs overflow-y-auto">
       
       {/* Modal Container */}
       <div 
-        className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-4xl overflow-hidden flex flex-col my-auto max-h-[92vh]"
+        className="print-modal-container bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-4xl overflow-hidden flex flex-col my-auto max-h-[92vh]"
         onClick={(e) => e.stopPropagation()}
       >
         
@@ -120,14 +120,14 @@ export default function PrintLabelModal({
         </div>
 
         {/* Printable Area / Sheet Preview */}
-        <div className="p-6 overflow-y-auto bg-slate-100 flex-1">
+        <div className="print-sheet-area p-6 overflow-y-auto bg-slate-100 flex-1">
           
           {printBoxes.length === 0 ? (
             <div className="p-12 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
               {lang === 'pt' ? 'Nenhuma caixa cadastrada para impressão nesta seleção.' : 'No boxes registered for printing in this selection.'}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+            <div className="print-labels-grid grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
               {printBoxes.map((box) => {
                 const shortCoord = getShortCoordinate(box.drawer, box.row, box.col, lang);
                 const fullCoord = formatCoordinate(box.drawer, box.row, box.col, lang);

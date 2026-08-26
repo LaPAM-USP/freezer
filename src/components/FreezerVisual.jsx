@@ -33,7 +33,10 @@ export default function FreezerVisual({
   onEditDrawer,
   onPrintDrawerLabels,
   onFocusDrawer,
+  members = LAB_MEMBERS,
 }) {
+  const membersList = members && members.length > 0 ? members : LAB_MEMBERS;
+
   // Collapsed drawers state (default: all expanded or filtered)
   const [collapsedDrawers, setCollapsedDrawers] = useState({});
 
@@ -141,7 +144,7 @@ export default function FreezerVisual({
             const isCollapsed = !!collapsedDrawers[drawer.id];
 
             // Claimed owner info
-            const ownerObj = LAB_MEMBERS.find(m => m.id === drawer.claimedBy);
+            const ownerObj = membersList.find(m => m.id === drawer.claimedBy);
 
             return (
               <div 
